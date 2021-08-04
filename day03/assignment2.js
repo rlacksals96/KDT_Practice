@@ -33,13 +33,3 @@ function updateLocation(priorities, location) {
 	}
 }
 
-let p = [2, 1, 3, 2];
-let loc = 2;
-console.log(solution(p, loc));
-
-// let arr = [1, 2, 3];
-// let tmp = arr.splice(0, 1);
-// console.log(tmp);
-// console.log(arr);
-// arr.push(tmp[0]);
-// console.log(arr);

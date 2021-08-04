@@ -1,28 +1,30 @@
-function solution(n, edge) {
-  const matrix = edge.reduce(
-    (matrix, [start, end]) => {
-      matrix[start].push(end);
-      matrix[end].push(start);
-      return matrix;
-    },
-    Array.from({ length: n + 1 }, () => [])
-  );
+const merge = (keys, values) => {
+  return keys
+    .map((key, idx) => [key, values[idx], idx])
+    .reduce(
+      (merged, [key, value, idx]) => ({
+        ...merged,
+        ...{
+          [key]: {
+            count: (merged[key] && merged[key].count || 0) + value,
+            list: [
+              ...(merged[key] && merged[key].list || []),
+              [value, idx],
+            ],
+          },
+        },
+      }),
+      {}
+    );
+};
 
-  const distances = [0, 1];
-  let queue = [1];
-
-  while (queue.length) {
-    const [start, ...rest] = queue;
-    for (const end of matrix[start]) {
-      if (!distances[end]) {
-        rest.push(end);
-        distances[end] = (distances[start] || 0) + 1;
-      }
-    }
-    queue = [...rest];
-  }
-
-  const maxValue = Math.max(...distances);
-  return distances.filter((value) => value === maxValue)
-    .length;
+function solution(genres, plays) {
+  return Object.values(merge(genres, plays))
+    .sort((a, b) => b.count - a.count)
+    .flatMap((genre) => {
+      return genre.list
+        .sort(([aCount], [bCount]) => bCount - aCount)
+        .slice(0, 2)
+        .map(([_, idx]) => idx);
+    });
 }

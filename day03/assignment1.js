@@ -21,6 +21,3 @@ function solution(s) {
 		return false;
 	}
 }
-
-const arr = ["()()", "(())()", ")()(", "(()("];
-for (const s of arr) console.log(solution(s));
